@@ -28,10 +28,17 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
     # List C/C++ source files with relative paths to this CMakeLists.txt.
     audio_management.cpp)
 
+set (OBOE_DIR ${CMAKE_SOURCE_DIR}/oboe)
+add_subdirectory(${OBOE_DIR} ./oboe)
+
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
+    ${OBOE_DIR}/include)
+
 # Specifies libraries CMake should link to your target library. You
 # can link libraries from various origins, such as libraries defined in this
 # build script, prebuilt third-party libraries, or Android system libraries.
 target_link_libraries(${CMAKE_PROJECT_NAME}
     # List libraries link to the target library
+    oboe
     android
     log)
