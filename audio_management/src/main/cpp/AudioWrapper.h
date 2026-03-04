@@ -10,6 +10,9 @@
 
 class AudioWrapper : public oboe::AudioStreamDataCallback {
 public:
+    AudioWrapper();
+    ~AudioWrapper();
+
     int startAudio();
     void stopAudio();
 
@@ -23,6 +26,7 @@ public:
             );
 private:
     // mutex
+    std::mutex mMutex;
 
     // audio stream
     std::shared_ptr<oboe::AudioStream> mStream;

@@ -27,9 +27,24 @@ public:
     double getNextSample();
 };
 
-HarmonicOscillator harmonicOscillator440 = HarmonicOscillator(
+HarmonicOscillator harmonicC4 = HarmonicOscillator(
         0.5,
-        440.0,
-        0.0);
+        261.63,
+        0.0
+        );
+
+HarmonicOscillator harmonicE4 = HarmonicOscillator(
+        0.5,
+        329.63,
+        0.0
+);
+
+HarmonicOscillator harmonicG4 = HarmonicOscillator(
+        0.5,
+        392,
+        0.0
+);
+
+
 
 #endif //AUDIOAPP_HARMONICOSCILLATOR_H

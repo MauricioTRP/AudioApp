@@ -6,6 +6,8 @@
 #include <oboe/Oboe.h>
 
 int AudioWrapper::startAudio() {
+    std::lock_guard<std::mutex> lock(mMutex);
+
     oboe::AudioStreamBuilder builder;
 
     oboe::Result result = builder.setSharingMode(oboe::SharingMode::Exclusive)
@@ -30,6 +32,12 @@ void AudioWrapper::stopAudio() {
     }
 }
 
+AudioWrapper::AudioWrapper() {
+    harmonicOscillators.push_back(harmonicC4);
+    harmonicOscillators.push_back(harmonicE4);
+    harmonicOscillators.push_back(harmonicG4);
+}
+
 /**
  * Acá se procesa el audio por bloques
  * @param oboeStream
@@ -41,5 +49,27 @@ oboe::DataCallbackResult AudioWrapper::onAudioReady(
         oboe::AudioStream *oboeStream,
         void *audioData,
         int32_t numFrames) {
+    const size_t numOscillators = harmonicOscillators.size();
+    float *out = static_cast<float *>(audioData);
 
+    if (numOscillators == 0) {
+        memset(out, 0, numFrames * kChannels * sizeof(float));
+        return oboe::DataCallbackResult::Continue;
+    }
+
+    for (int i = 0; i < numFrames; i++) {
+        double sum = 0.0;
+        for (int j = 0; j < numOscillators; j++) {
+            sum += harmonicOscillators[j].getNextSample();
+        }
+        sum /= static_cast<double >(numOscillators);
+
+        const float sample = static_cast<float>(sum);
+
+        for (int j = 0; j < kChannels; j++) {
+            out[i * kChannels + j] = sample;
+        }
+    }
+
+    return oboe::DataCallbackResult::Continue;
 }
