@@ -16,6 +16,9 @@ public:
     int startAudio();
     void stopAudio();
 
+    void noteOn(double frequency);
+    void noteOff(double frequency);
+
     void addOscillatorToVector(HarmonicOscillator harmonicOscillator);
     void removeOscillatorFromVector(HarmonicOscillator harmonicOscillator);
 
