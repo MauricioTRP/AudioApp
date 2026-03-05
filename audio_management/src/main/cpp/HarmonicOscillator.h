@@ -24,26 +24,9 @@ public:
     HarmonicOscillator(double amplitude, double freq, double phase = 0.0)
     : amplitude(amplitude), frequency(freq), phase(phase), time(0.0) {}
 
-    double getNextSample();
+    double getNextSample(double deltaTime);
 };
 
-HarmonicOscillator harmonicC4 = HarmonicOscillator(
-        0.5,
-        261.63,
-        0.0
-        );
-
-HarmonicOscillator harmonicE4 = HarmonicOscillator(
-        0.5,
-        329.63,
-        0.0
-);
-
-HarmonicOscillator harmonicG4 = HarmonicOscillator(
-        0.5,
-        392,
-        0.0
-);
 
 
 
