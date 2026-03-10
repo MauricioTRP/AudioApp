@@ -25,6 +25,5 @@ dependencyResolutionManagement {
 rootProject.name = "AudioApp"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
 include(":app")
 include(":audio_management")

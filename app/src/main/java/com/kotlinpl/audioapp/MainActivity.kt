@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -26,26 +27,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             AudioAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(innerPadding)
-                    ) {
-                        //
-                        Button(
-                            onClick = {
-                                audioManagement.play()
-                            }
-                        ) { Text("Start Audio") }
-
-                        Button(
-                            onClick = {
-                                audioManagement.stop()
-                            }
-                        ) { Text("Stop Audio") }
-                    }
+                    PianoKeys(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        audioManagement.stop()
     }
 }
 
