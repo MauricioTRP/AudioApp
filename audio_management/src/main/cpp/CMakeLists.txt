@@ -28,7 +28,8 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
     # List C/C++ source files with relative paths to this CMakeLists.txt.
     audio_management.cpp
     HarmonicOscillator.cpp
-    AudioWrapper.cpp)
+    AudioWrapper.cpp
+    Voice.cpp)
 
 set (OBOE_DIR ${CMAKE_SOURCE_DIR}/oboe)
 add_subdirectory(${OBOE_DIR} ./oboe)

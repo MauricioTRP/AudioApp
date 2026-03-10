@@ -27,31 +27,23 @@ class MainActivity : ComponentActivity() {
         setContent {
             AudioAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    PianoKeys(modifier = Modifier.padding(innerPadding))
+                    PianoKeys(
+                        audioManager = audioManagement,
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        audioManagement.play()
     }
 
     override fun onStop() {
         super.onStop()
 
         audioManagement.stop()
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AudioAppTheme {
-        Greeting("Android")
     }
 }

@@ -32,9 +32,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kotlinpl.audio_management.AudioManagement
 
 @Composable
-fun PianoKeys(modifier: Modifier = Modifier) {
+fun PianoKeys(
+    audioManager: AudioManagement,
+    modifier: Modifier = Modifier) {
     val whiteNotes = listOf(
         R.string.note_c,
         R.string.note_d,
@@ -65,9 +68,11 @@ fun PianoKeys(modifier: Modifier = Modifier) {
                         .weight(1f)
                         .fillMaxHeight(),
                     onNoteTap = {
+                        audioManager.enqueueEvent(note = it, event = "REGISTER")
                         Log.d("PianoKeys", "Note tapped: $it")
                     },
                     onNoteRelease = {
+                        audioManager.enqueueEvent(note = it, event = "REMOVE")
                         Log.d("PianoKeys", "Note released: $it")
                     }
                 )
@@ -87,9 +92,11 @@ fun PianoKeys(modifier: Modifier = Modifier) {
                 sharpNote = stringResource(notes.first),
                 flatNote = stringResource(notes.second),
                 onNoteTap = {
+                    audioManager.enqueueEvent(note = it, event = "REGISTER")
                     Log.d("PianoKeys", "Note tapped: $it")
                 },
                 onNoteRelease = {
+                    audioManager.enqueueEvent(note = it, event = "REMOVE")
                     Log.d("PianoKeys", "Note released: $it")
                 },
                 modifier = Modifier
@@ -118,13 +125,17 @@ private fun WhiteKey(
                 awaitPointerEventScope {
                     while (true) {
                         val event = awaitPointerEvent()
+                        val isAnyButtonPressed = event.changes.any { it.pressed }
 
                         when(event.type) {
                             PointerEventType.Press -> {
                                 onNoteTap(note)
                             }
                             PointerEventType.Release -> {
-                                onNoteRelease(note)
+                                if (!isAnyButtonPressed) {
+                                    // Only triggers if no fingers are pressing this key
+                                    onNoteRelease(note)
+                                }
                             }
                             else -> {}
                         }
@@ -160,12 +171,16 @@ private fun BlackKey(
                     while (true) {
                         val event = awaitPointerEvent()
 
+                        val isAnyButtonPressed = event.changes.any { it.pressed }
+
                         when(event.type) {
                             PointerEventType.Press -> {
                                 onNoteTap(sharpNote)
                             }
                             PointerEventType.Release -> {
-                                onNoteRelease(sharpNote)
+                                if (!isAnyButtonPressed) {
+                                    onNoteRelease(sharpNote)
+                                }
                             }
                             else -> {}
                         }
@@ -195,9 +210,11 @@ private fun BlackKey(
 @Preview(showBackground = true)
 @Composable
 fun PianoKeysPreview() {
-    MaterialTheme {
-        Box(modifier = Modifier.padding(16.dp)) {
-            PianoKeys()
-        }
-    }
+//    MaterialTheme {
+//        Box(modifier = Modifier.padding(16.dp)) {
+//            PianoKeys(
+//                audioManager = TODO(),
+//            )
+//        }
+//    }
 }

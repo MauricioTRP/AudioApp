@@ -7,6 +7,7 @@
 
 #include <oboe/Oboe.h>
 #include "HarmonicOscillator.h"
+#include "Voice.h"
 
 class AudioWrapper : public oboe::AudioStreamDataCallback {
 public:
@@ -16,11 +17,8 @@ public:
     int startAudio();
     void stopAudio();
 
-    void noteOn(double frequency);
-    void noteOff(double frequency);
-
-    void addOscillatorToVector(HarmonicOscillator harmonicOscillator);
-    void removeOscillatorFromVector(HarmonicOscillator harmonicOscillator);
+    void noteOn(std::string noteString);
+    void noteOff(std::string noteString);
 
     oboe::DataCallbackResult onAudioReady(
             oboe::AudioStream *oboeStream,
@@ -38,7 +36,11 @@ private:
     static int constexpr kChannels = 2;
     static int constexpr sampleRate = 48000;
 
-    std::vector<HarmonicOscillator> harmonicOscillators;
+//    std::vector<HarmonicOscillator> harmonicOscillators;
+    
+    // Signature de las voces
+    static int constexpr kNotes = 12;
+    static Voice voices[kNotes];
 };
 
 

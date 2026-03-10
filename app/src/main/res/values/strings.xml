@@ -1,20 +1,20 @@
 <resources>
     <string name="app_name">AudioApp</string>
-    <string name="note_c">C</string>
-    <string name="note_d">D</string>
-    <string name="note_e">E</string>
-    <string name="note_f">F</string>
-    <string name="note_g">G</string>
-    <string name="note_a">A</string>
-    <string name="note_b">B</string>
-    <string name="note_c_sharp">C#</string>
-    <string name="note_d_flat">D♭</string>
-    <string name="note_d_sharp">D#</string>
-    <string name="note_e_flat">E♭</string>
-    <string name="note_f_sharp">F#</string>
-    <string name="note_g_flat">G♭</string>
-    <string name="note_g_sharp">G#</string>
-    <string name="note_a_flat">A♭</string>
-    <string name="note_a_sharp">A#</string>
-    <string name="note_b_flat">B♭</string>
+    <string name="note_c">C4</string>
+    <string name="note_d">D4</string>
+    <string name="note_e">E4</string>
+    <string name="note_f">F4</string>
+    <string name="note_g">G4</string>
+    <string name="note_a">A4</string>
+    <string name="note_b">B4</string>
+    <string name="note_c_sharp">C#4</string>
+    <string name="note_d_flat">D♭4</string>
+    <string name="note_d_sharp">D#4</string>
+    <string name="note_e_flat">E♭4</string>
+    <string name="note_f_sharp">F#4</string>
+    <string name="note_g_flat">G♭4</string>
+    <string name="note_g_sharp">G#4</string>
+    <string name="note_a_flat">A♭4</string>
+    <string name="note_a_sharp">A#4</string>
+    <string name="note_b_flat">B♭4</string>
 </resources>

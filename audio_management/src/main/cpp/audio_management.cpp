@@ -32,3 +32,32 @@ Java_com_kotlinpl_audio_1management_AudioManagement_nativeStop(JNIEnv *env, jobj
     auto* engine = reinterpret_cast<AudioWrapper*>(handle);
     engine->stopAudio();
 }
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_kotlinpl_audio_1management_AudioManagement_nativeEnqueueEvent(
+        JNIEnv *env,
+        jobject thiz,
+        jlong handle, // puntero AudioWrapper
+        jstring note, // string
+        jstring event // String
+        ) {
+    auto* engine = reinterpret_cast<AudioWrapper*>(handle);
+    
+    if (engine == nullptr) return;
+    
+    const char* noteChars = env->GetStringUTFChars(note, nullptr);
+    const char* eventChars = env->GetStringUTFChars(event, nullptr);
+    
+    const std::string noteString(noteChars);
+    const std::string eventString(eventChars);
+    
+    if (eventString == "REGISTER") {
+        engine->noteOn(noteString);
+    } else if (eventString == "REMOVE") {
+        engine->noteOff(noteString);
+    }
+    
+    env->ReleaseStringUTFChars(note, noteChars);
+    env->ReleaseStringUTFChars(event, eventChars);
+   
+}
