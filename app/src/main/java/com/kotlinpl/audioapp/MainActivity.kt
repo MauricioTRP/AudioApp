@@ -27,23 +27,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AudioAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(innerPadding)
-                    ) {
-                        //
-                        Button(
-                            onClick = {
-                                audioManagement.play()
-                            }
-                        ) { Text("Start Audio") }
-
-                        Button(
-                            onClick = {
-                                audioManagement.stop()
-                            }
-                        ) { Text("Stop Audio") }
-                    }
+                    PianoKeys(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

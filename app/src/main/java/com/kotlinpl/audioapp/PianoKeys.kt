@@ -1,5 +1,6 @@
 package com.kotlinpl.audioapp
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -63,8 +64,12 @@ fun PianoKeys(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight(),
-                    onNoteTap = {},
-                    onNoteRelease = {}
+                    onNoteTap = {
+                        Log.d("PianoKeys", "Note tapped: $it")
+                    },
+                    onNoteRelease = {
+                        Log.d("PianoKeys", "Note released: $it")
+                    }
                 )
             }
         }
@@ -81,6 +86,12 @@ fun PianoKeys(modifier: Modifier = Modifier) {
             BlackKey(
                 sharpNote = stringResource(notes.first),
                 flatNote = stringResource(notes.second),
+                onNoteTap = {
+                    Log.d("PianoKeys", "Note tapped: $it")
+                },
+                onNoteRelease = {
+                    Log.d("PianoKeys", "Note released: $it")
+                },
                 modifier = Modifier
                     .offset(x = whiteKeyWidth * index - blackKeyWidth / 2)
                     .size(blackKeyWidth, blackKeyHeight)
@@ -92,8 +103,8 @@ fun PianoKeys(modifier: Modifier = Modifier) {
 @Composable
 private fun WhiteKey(
     note: String,
-    onNoteTap: () -> Unit,
-    onNoteRelease: () -> Unit,
+    onNoteTap: (String) -> Unit,
+    onNoteRelease: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var pointerEventType: PointerEventType? by remember { mutableStateOf(null) }
@@ -107,6 +118,16 @@ private fun WhiteKey(
                 awaitPointerEventScope {
                     while (true) {
                         val event = awaitPointerEvent()
+
+                        when(event.type) {
+                            PointerEventType.Press -> {
+                                onNoteTap(note)
+                            }
+                            PointerEventType.Release -> {
+                                onNoteRelease(note)
+                            }
+                            else -> {}
+                        }
                     }
                 }
             },
@@ -122,11 +143,35 @@ private fun WhiteKey(
 }
 
 @Composable
-private fun BlackKey(sharpNote: String, flatNote: String, modifier: Modifier = Modifier) {
+private fun BlackKey(
+    sharpNote: String,
+    flatNote: String,
+    onNoteTap: (String) -> Unit,
+    onNoteRelease: (String) -> Unit,
+    modifier: Modifier = Modifier) {
+    var pointerEventType: PointerEventType? by remember { mutableStateOf(null) }
+
     Box(
         modifier = modifier
             .background(Color.Black)
-            .padding(bottom = 12.dp),
+            .padding(bottom = 12.dp)
+            .pointerInput(pointerEventType) {
+                awaitPointerEventScope {
+                    while (true) {
+                        val event = awaitPointerEvent()
+
+                        when(event.type) {
+                            PointerEventType.Press -> {
+                                onNoteTap(sharpNote)
+                            }
+                            PointerEventType.Release -> {
+                                onNoteRelease(sharpNote)
+                            }
+                            else -> {}
+                        }
+                    }
+                }
+            },
         contentAlignment = Alignment.BottomCenter
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
